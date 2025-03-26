@@ -1,18 +1,44 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <div ref="container"></div>
 </template>
-
+ 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import { createUniver, defaultTheme, LocaleType, merge } from '@univerjs/presets';
+import { UniverSheetsCorePreset } from '@univerjs/presets/preset-sheets-core';
+import UniverPresetSheetsCoreZhCN from '@univerjs/presets/preset-sheets-core/locales/zh-CN';
+ 
+import '@univerjs/presets/lib/styles/preset-sheets-core.css';
+ 
 export default {
-  name: 'HomeView',
-  components: {
-    HelloWorld
-  }
+  data() {
+    return {
+      univerAPI: null,
+    };
+  },
+  mounted() {
+    const { univerAPI } = createUniver({
+      locale: LocaleType.ZH_CN,
+      locales: {
+        [LocaleType.ZH_CN]: merge(
+          {},
+          UniverPresetSheetsCoreZhCN,
+        ),
+      },
+      theme: defaultTheme,
+      presets: [
+        UniverSheetsCorePreset({
+          container: this.$refs.container,
+        }),
+      ],
+    });
+    
+    univerAPI.createWorkbook({ name: 'Test Sheet' });
+ 
+    this.univerAPI = univerAPI;
+  },
+  beforeDestroy() {
+    this.univerAPI.dispose();
+    this.univerAPI = null;
+  },
 }
 </script>
