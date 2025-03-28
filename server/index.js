@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // 单文件上传
-app.post('/universer-api/stream/file/uploads', upload.single('file'), (req, res) => {
+app.post('/universer-api/stream/file/upload', upload.single('file'), (req, res) => {
   if (!req.file) {
     return res.status(400).json({ message: 'No file uploaded' });
   }

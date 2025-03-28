@@ -1,9 +1,9 @@
 <template>
   <div class="outer">
-  <!-- <div class="btns">
+  <div class="btns">
     <input type="file" @change="importExcel"/>
     <button>保存</button>
-  </div> -->
+  </div>
   <div ref="container">
   </div>
 </div>
@@ -57,10 +57,10 @@ export default {
     this.univerAPI = univerAPI;
   },
   methods:{
-    async importExcel(value){
-      console.log(value);
+    async importExcel(event){
+      let file = event.target.files[0];
       // 接受 File 对象
-      const snapshot = await univerAPI.importXLSXToSnapshotAsync();
+      const snapshot = await this.univerAPI.importXLSXToSnapshotAsync(file);
       // 或者接受远程文件的 URL
       // const snapshot = await univerAPI.importXLSXToSnapshotAsync('https://example.com/filename.xlsx');
       console.log('Snapshot created:', snapshot); // 了解更多: https://docs.univer.ai/zh-CN/guides/sheets/getting-started/workbook-data
